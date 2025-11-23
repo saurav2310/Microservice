@@ -1,8 +1,8 @@
 const blacklisttokenModel = require('../models/blacklisttoken.model');
-const userModel = require('../models/user.model');
+const captainModel = require('../models/captain.model');
 const jwt = require('jsonwebtoken');
 
-module.exports.userAuth = async (req,res,next)=>{
+module.exports.captainAuth = async (req,res,next)=>{
     try {
         const token = req.cookies.token||req.headers.authorization?.split(' ')[1];
 
@@ -20,13 +20,13 @@ module.exports.userAuth = async (req,res,next)=>{
         
         
         
-        const user = await userModel.findById(decoded.id);
+        const captain = await captainModel.findById(decoded.id);
         
-        if(!user){
+        if(!captain){
             return res.status(401).json({message:"Unauthorized"});
         }
 
-        req.user = user;
+        req.captain = captain;
         next();
     } catch (error) {
         return res.status(500).json({message:error.message});
